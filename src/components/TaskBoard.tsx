@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import NotTasks from '../components/NotTasks';
 import Todo from '../components/Todo';
-import { useAppDispatch, useAppSelector } from '../types/Store.types';
-import { getTodo } from '../store/post/TodosAction';
+import { useAppDispatch } from '../hooks/useAppDispatch';
+import { useAppSelector } from '../hooks/useAppSelector'; 
+import { getTodo } from '../store/todo/TodosAction';
 
 const TaskBoard = () => {
   const todos = useAppSelector(state => state.todos.todos);

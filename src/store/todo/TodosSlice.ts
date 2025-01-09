@@ -1,11 +1,10 @@
+import { getTodo } from './TodosAction';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { getTodo, ITodo } from '../post/TodosAction';
+import { ITodo } from '../../types/ITodo';
 
-interface ITodosState {
-  todos: ITodo[]
-}
+import { ITodosStoreState } from '../../types/ITodoStoreState';
 
-const initialState: ITodosState = {
+const initialState: ITodosStoreState = {
   todos: [],
 }
 

@@ -1,6 +1,6 @@
 import React from 'react';
-import { IButtonProps } from '../types/Button.types';
-import plus from '../assets/icons/plus.svg';
+import { IButtonProps } from './Button.types';
+import plus from '../../assets/icons/plus.svg';
 
 const Button: React.FC<IButtonProps> = ({children}) => {
     return (
