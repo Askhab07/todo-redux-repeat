@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
 import remove from '../assets/icons/delete.svg';
 
-const Todo = () => {
+interface ITodo {
+  _id: string
+  title: string
+  completed: boolean
+  created_at: number
+}
+
+const Todo: React.FC<{ todo: ITodo }> = ({ todo }) => {
+
   const [isChecked, setIsChecked] = useState(false);
 
   const handleCheckboxChange = () => {
@@ -18,8 +26,7 @@ const Todo = () => {
         onChange={handleCheckboxChange}
       />
       <label className={`w-[632px] h-10 text-gray-100 text-sm ${isChecked ? 'line-through text-my-gray-300' : ''}`} htmlFor="">
-        Integer urna interdum massa libero auctor neque turpis turpis semper.
-        Duis vel sed fames integer.{' '}
+        {todo.title}
         <span className={`text-my-gray-300 text-[8px] ${isChecked ? 'hidden' : ''}`}>5 минут назад</span>
       </label>
       <button className="mt-[5px] mr-[5px]">

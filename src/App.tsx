@@ -1,6 +1,6 @@
 import './app.css';
 import React from 'react';
-import Main from './pages/Main';
+import Main from './page/Main';
 import Header from './layouts/Header';
 
 const App = () => {

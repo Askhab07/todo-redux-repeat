@@ -1,6 +1,6 @@
 import React from 'react';
-import Form from '../layouts/Form';
-import TaskBoard from '../layouts/TaskBoard';
+import Form from '../components/Form';
+import TaskBoard from '../components/TaskBoard';
 
 const Main = () => {
     return (

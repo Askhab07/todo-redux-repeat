@@ -1,9 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import NotTasks from '../components/NotTasks';
 import Todo from '../components/Todo';
+import { useAppDispatch, useAppSelector } from '../types/Store.types';
+import { getTodo } from '../store/post/TodosAction';
 
 const TaskBoard = () => {
+  const todos = useAppSelector(state => state.todos.todos);
+  const dispatch = useAppDispatch();
   const [active, setActive] = useState(false);
+
+  useEffect(() => {
+    dispatch(getTodo())
+  }, [dispatch])
+
   return (
     <div className="w-[736px] flex flex-col gap-6">
       <div className="flex justify-between">
@@ -22,8 +31,7 @@ const TaskBoard = () => {
       </div>
       {active && <NotTasks />}
       <div className='flex flex-col gap-3'>
-        <Todo />
-        <Todo />
+        {todos.map(todo => <Todo key={todo._id} todo={todo} />)}
       </div>
     </div>
   );
