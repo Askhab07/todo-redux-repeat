@@ -1,20 +1,34 @@
-import React, { useState } from 'react';
+import React from 'react';
 import remove from '../assets/icons/delete.svg';
 import { ITodo } from '../types/ITodo';
+import { formatDistanceToNow } from 'date-fns';
+import { ru } from 'date-fns/locale';
+import { completedTodo, deleteTodo } from '../store/todo/TodosAction';
+import { useAppDispatch } from '../hooks/useAppDispatch';
+import IsLoading from './IsLoading';
+
 
 interface ITodoProps {
   todo: ITodo;
 }
 
 const Todo: React.FC<ITodoProps> = ({ todo }) => {
-  const [isChecked, setIsChecked] = useState(false);
+
+  const dispatch = useAppDispatch();
+
 
   const handleCheckboxChange = () => {
-    setIsChecked(!isChecked);
+    dispatch(completedTodo({ _id: todo._id, completed: !todo.completed }));
   };
 
-  const formattedTime = formatRelativeTime(Number(todo.created_at));
-
+  const handleDelete = () => {
+    dispatch(deleteTodo(todo._id))
+  }
+  
+  const createdTime = todo.created_at
+    ? formatDistanceToNow(new Date(Number(todo.created_at)), { addSuffix: true, locale: ru })
+    : 'Некорректная дата';
+  
   return (
     <div className="w-[736px] h-[72px] p-4 flex justify-between items-start bg-my-gray-500 rounded-lg">
       <input
@@ -22,46 +36,27 @@ const Todo: React.FC<ITodoProps> = ({ todo }) => {
         type="checkbox"
         name=""
         id=""
-        checked={isChecked}
+        checked={todo.completed}
         onChange={handleCheckboxChange}
       />
       <label
         className={`w-[632px] h-10 text-gray-100 text-sm ${
-          isChecked ? 'line-through text-my-gray-300' : ''
+          todo.completed ? 'line-through text-my-gray-300' : ''
         }`}
         htmlFor=""
       >
         {todo.title}{' '}
         <span
-          className={`text-my-gray-300 text-[8px] ${isChecked ? 'hidden' : ''}`}
+          className={`text-my-gray-300 text-[8px] ${todo.completed ? 'hidden' : ''}`}
         >
-          {formattedTime}
+          {createdTime}
         </span>
       </label>
-      <button className="mt-[5px] mr-[5px]">
-        <img src={remove} alt="" />
+      <button className="mt-[5px] mr-[5px]" onClick={handleDelete}>
+         {todo.isLoading ? <IsLoading color='#808080' /> : <img src={remove} alt="" />}
       </button>
     </div>
   );
-};
-
-const formatRelativeTime = (timestamp: number) => {
-  const now = Date.now();
-  const diff = Math.floor((now - timestamp) / 1000);
-
-  if (diff < 60) {
-    return `${diff} секунд назад`;
-  } else if (diff < 3600) {
-    const minutes = Math.floor(diff / 60);
-    return `${minutes} минут назад`;
-  } else if (diff < 86400) {
-    const hours = Math.floor(diff / 3600);
-    const minutes = Math.floor((diff % 3600) / 60);
-    return `${hours} час${hours > 1 ? 'а' : ''} ${minutes} минут назад`;
-  } else {
-    const days = Math.floor(diff / 86400);
-    return `${days} дн${days > 1 ? 'я' : 'ей'} назад`;
-  }
 };
 
 export default Todo;

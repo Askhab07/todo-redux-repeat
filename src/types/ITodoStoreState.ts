@@ -1,5 +1,6 @@
-import { ITodo } from './ITodo'
+import { ITodo } from './ITodo';
 
 export interface ITodosStoreState {
-    todos: ITodo[]
-  }
+  todos: ITodo[];
+  isLoading: boolean;
+}
